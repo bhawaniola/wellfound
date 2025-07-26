@@ -1,9 +1,8 @@
-'use client';
-
-import Link from 'next/link';
-import { useAtom } from 'jotai';
-import { vendorListAtom, vendorTotalAtom, vendorPageAtom } from '../atoms/vendorState';
-import { useEffect } from 'react';
+"use client";
+import Link from "next/link";
+import { useAtom } from "jotai";
+import { vendorListAtom, vendorTotalAtom, vendorPageAtom } from "../atoms/vendorState";
+import { useEffect } from "react";
 
 export default function VendorList() {
   const [vendors, setVendors] = useAtom(vendorListAtom);
@@ -17,10 +16,14 @@ export default function VendorList() {
     setTotal(data.total);
     setPage(_page);
   }
-  useEffect(() => { loadVendors(page); }, [page]);
+
+  useEffect(() => {
+    loadVendors(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   async function handleDelete(id: string) {
-    if (!confirm('Delete this vendor?')) return;
+    if (!confirm("Delete this vendor?")) return;
     await fetch(`/api/vendors/${id}`, { method: "DELETE" });
     loadVendors(page);
   }
@@ -29,14 +32,18 @@ export default function VendorList() {
     <div>
       <h2>Vendors</h2>
       <Link href="/vendors/create"><button>Create Vendor</button></Link>
-      <table border={1} cellPadding={4}>
+      <table border={1} cellPadding={4} style={{ marginTop: 10 }}>
         <thead>
           <tr>
-            <th>Name</th><th>Bank Acc.</th><th>Bank Name</th><th>Edit</th><th>Delete</th>
+            <th>Name</th>
+            <th>Bank Acc.</th>
+            <th>Bank Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {vendors.map(v => (
+          {vendors.map((v) => (
             <tr key={v._id}>
               <td>{v.vendorName}</td>
               <td>{v.bankAccountNo}</td>
@@ -48,9 +55,11 @@ export default function VendorList() {
         </tbody>
       </table>
       <div style={{ marginTop: 16 }}>
-        {Array.from({ length: Math.ceil(total / 5) }).map((_, i) =>
-          <button key={i} disabled={i + 1 === page} onClick={() => loadVendors(i + 1)}>{i + 1}</button>
-        )}
+        {Array.from({ length: Math.ceil(total / 5) }).map((_, i) => (
+          <button key={i} disabled={i + 1 === page} onClick={() => loadVendors(i + 1)}>
+            {i + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

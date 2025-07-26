@@ -1,9 +1,10 @@
-import { atom } from 'jotai';
+import { atom } from "jotai";
+import type { VendorDocument } from "@/lib/models/Vendor";
 
-export const vendorListAtom = atom<any[]>([]);
-export const vendorTotalAtom = atom(0);
-export const vendorPageAtom = atom(1);
-export const vendorFormAtom = atom({
+export const vendorListAtom = atom<VendorDocument[]>([]);
+export const vendorTotalAtom = atom<number>(0);
+export const vendorPageAtom = atom<number>(1);
+export const vendorFormAtom = atom<Partial<VendorDocument>>({
   vendorName: "",
   bankAccountNo: "",
   bankName: "",
